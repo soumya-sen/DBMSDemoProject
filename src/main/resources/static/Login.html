@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+	
+    <title>Decode your Polls</title>
+	<script src="js/angular-ui-bootstrap-modal.js"></script>
+	<script src="js/angular-chart.js"></script>
+	<script src="js/angular-chart.min.js"></script>
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/business-casual.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+        <!--<link rel="stylesheet" href="assets/css/form-elements.css"> -->
+        <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
+
+	<script>
+	
+		var app = angular.module('myApp', ['ui.bootstrap.modal']);
+		app.controller('myCtrl', ['$scope', '$http', function($scope, $http) 
+		{
+			$scope.user = undefined;
+			$scope.loginStatus  = false;
+		
+			$scope.backPage = function() 
+			{
+			$scope.pageSelect = 1;
+			}
+
+		$scope.openLoginModal = function()
+		{
+			$scope.loginModal = true;
+			
+		}
+		
+		$scope.openSignUpModal = function()
+		{
+			$scope.signUpModal = true;
+			
+		}
+		
+		$scope.loginUser = function()
+		{
+			$http({
+		        method : "POST",
+		        url : "login",
+		        data : {
+		        	'email' : $scope.email,
+		        	'pwd' : $scope.pwd
+		        }
+		    }).then(function(response) {
+	        	$scope.user = response.data;
+	        	console.log($scope.user);
+	        	$scope.loginModal = false;
+	        	$scope.loginStatus  = true;
+	        	
+	    	});
+		}
+			$scope.signUp = function()
+			{
+				$http({
+			        method : "POST",
+			        url : "signUp",
+			        data : {
+			        	'fullName' : $scope.fullName,
+			        	'emailId' : $scope.emailId,
+			        	'age' : $scope.age,
+			        	'country' : $scope.country,
+			        	'password' : $scope.password,
+			        	'politicalPreference' : $scope.politicalPreference
+			        }
+			    }).then(function(response) {
+		        	$scope.user = response.data;
+		        	$scope.signUpModal = false;
+		        	$scope.loginStatus  = true;
+		    	});
+			}
+			
+			$scope.logoutUser = function()
+			{
+				$scope.loginStatus = false;
+				$scope.user = undefined;
+			}
+
+	}]);
+	
+	</script>
+</head>
+
+<body id="page-top" class="index" ng-app="myApp" ng-controller="myCtrl">
+
+  <!-- Top content -->
+    
+                   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-if = "loginStatus == false">
+                <ul class="nav navbar-nav navbar-right">
+                  
+                    <li class="page-scroll">
+                        <a href="#" ng-click="openLoginModal();">Login</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="main.html" ng-click="openSignUpModal();">Home</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#about">Contact us </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-if = "loginStatus == true">
+                <ul class="nav navbar-nav navbar-right">
+                   
+                    <li class="page-scroll">
+                        <a href = "main.html" ng-click="openHome();">Welcome, {{user.fullName}}</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#" ng-click="logoutUser();">Log Out</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+       
+        
+        <div class="top-content">
+            
+            <div class="inner-bg">
+                <div class="container">
+                    
+                    <div class="brand">
+                        <div class="col-sm-8 col-sm-offset-2 text">
+                            <h1>  &nbsp &nbsp &nbsp &nbsp<strong> Login &amp; Register Forms</strong></h1>
+                            
+                        </div>
+                    </div>
+                  
+                    <div class="row">
+                        <div class="col-sm-5">
+                            								
+                            <div class="form-box">
+                                <div class="form-top">
+                                    <div class="form-top-left">
+                                        <h3>Login to our site</h3>
+                                        <p>Enter username and password to log on:</p>
+                                    </div>
+                                    <div class="form-top-right">
+                                        <i class="fa fa-lock"></i>
+                                    </div>
+                                </div>
+                                <div class="form-bottom">
+                               
+                                    <form role="form" action="/main.html" method="post" class="login-form">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="form-username">Username</label>
+                                            <input type="text" name="user" placeholder="Username..." class="form-username form-control" id="user" data-ng-model="email" ng-required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="sr-only" for="form-password">Password</label>
+                                            <input type="password" name="pass" placeholder="Password..." class="form-password form-control" id="pass" data-ng-model="pwd" ng-required>
+                                        </div>
+                                         &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp  &nbsp &nbsp  &nbsp &nbsp 
+                                    <input type="button" name="login" class="login loginmodal-submit" value="Login" ng-click = "loginUser();" ng-disabled="loginForm.$invalid" >
+                                    </form>
+                                </div>
+                            </div>
+                         
+                        
+                            <div class="social-login">
+                                <h3>...or login with:</h3>
+                                <div class="social-login-buttons">
+                                    <a class="btn btn-link-2" href="http://facebook.com">
+                                        <i class="fa fa-facebook"></i> Facebook
+                                    </a>
+                                    <a class="btn btn-link-2" href="http://twitter.com">
+                                        <i class="fa fa-twitter"></i> Twitter
+                                    </a>
+                                    <a class="btn btn-link-2" href="http://googleplus.com">
+                                        <i class="fa fa-google-plus"></i> Google Plus
+                                    </a>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="col-sm-1 middle-border"></div>
+                        <div class="col-sm-1"></div>
+                            
+                        <div class="col-sm-5">
+                            
+                            <div class="form-box">
+                                <div class="form-top">
+                                    <div class="form-top-left">
+                                        <h3>Sign up now</h3>
+                                        <p>Fill in the form below to get instant access:</p>
+                                    </div>
+                                    <div class="form-top-right">
+                                        <i class="fa fa-pencil"></i>
+                                    </div>
+                                </div>
+                                <div class="form-bottom">
+                                    <form role="form" action="" method="post" class="registration-form">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="form-first-name">Full name</label>
+                                            <input type="text" class="form-control" placeholder="Full Name..." id="fullName" data-ng-model="fullName" required data-validation-required-message="Please enter your full name.">        
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="sr-only" for="form-last-name">User name</label>
+                                           <input type="text" class="form-control" placeholder="User name.." id="emailId2" data-ng-model="emailId" required data-validation-required-message="Please enter an user name .">        
+                          					 </div>
+                                        <div class="form-group">
+                                            <label class="sr-only" for="form-email">Age</label>
+                                            <input type="text" class="form-control" placeholder="Age..." id="age" data-ng-model="age">        
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="sr-only" for="form-email">Country</label>
+                                          <input type="text" class="form-control" placeholder="Country..." id="country" data-ng-model="country" required data-validation-required-message="Please enter your country.">        
+                   
+                                        </div>
+                                 
+                                        <div class="form-group">
+                                            <label class="sr-only" for="form-email">Password</label>
+                                         <input type="password" class="form-control" placeholder="Password..." id="password2" data-ng-model="password" required data-validation-required-message="Please enter your password.">        
+                          
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="sr-only" for="form-email">Political Preference</label>
+                                          <input type="text" class="form-control" placeholder="Political Preference..." id="politicalPreference" data-ng-model="politicalPreference">                          
+                                        </div>
+                                        &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp  &nbsp &nbsp  &nbsp &nbsp 
+                                        <input type="button" name="signUp" class="login loginmodal-submit" value="Sign Up" ng-click = "signUp();" ng-disabled="loginForm.$invalid" >
+                                    </form>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+
+   
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="js/freelancer.min.js"></script>
+
+</body>
+
+</html>

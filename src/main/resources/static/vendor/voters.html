@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+
+    <title>Decode your Polls</title>
+<script src="js/angular-ui-bootstrap-modal.js"></script>
+<script src="js/angular-chart.js"></script>
+<script src="js/angular-chart.min.js"></script>
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/business-casual.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+        <!--<link rel="stylesheet" href="assets/css/form-elements.css"> -->
+        <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
+
+<script>
+
+var app = angular.module('myApp', ['ui.bootstrap.modal']);
+app.controller('myCtrl', ['$scope', '$http', function($scope, $http) 
+{
+$scope.user = undefined;
+$scope.loginStatus  = false;
+
+
+$scope.doYourAnalysis = function()
+{
+$http({
+        method : "POST",
+        url : "doYourAnalysis",
+        data : {
+        'state' : $scope.state,
+        'county' : $scope.county,
+        'party' : $scope.party
+        }
+    }).then(function(response) {
+        $scope.user = response.data;
+        $scope.signUpModal = false;
+        $scope.loginStatus  = true;
+    });
+}
+
+
+}]);
+
+</script>
+</head>
+
+<body id="page-top" class="index" ng-app="myApp" ng-controller="myCtrl">
+
+  <!-- Top content -->
+    
+                   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-if = "loginStatus == false">
+                <ul class="nav navbar-nav navbar-right">
+                  
+                    <li class="page-scroll">
+                        <a href="#" ng-click="openLoginModal();">Login</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="main.html" ng-click="openSignUpModal();">Home</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#about">Contact us </a>
+                    </li>
+                </ul>
+            </div>
+           <!-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-if = "loginStatus == true">
+                <ul class="nav navbar-nav navbar-right">
+                   
+                    <li class="page-scroll">
+                        <a href = "main.html" ng-click="openHome();">Welcome, {{user.fullName}}</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#" ng-click="logoutUser();">Log Out</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+       
+        
+        <div class="top-content">
+            
+            <div class="inner-bg">
+                <div class="container">
+                    
+                    <div class="brand">
+                        <div class="col-sm-8 col-sm-offset-2 text">
+                            <h1>  &nbsp &nbsp &nbsp &nbsp<strong> Do your Own Analysis</strong></h1>
+                            
+                        </div>
+                    </div>
+                  
+                    
+                        <div class="col-sm-1">
+                            
+                        </div>
+                            
+                        <div class="col-sm-5">
+                            
+                            <div class="form-box">
+                                <div class="form-top-left">
+                                    <h3>Analysis by Voters</h3>   
+                                </div>
+                                    <div class="form-top-left">
+                                    </div>
+                            </div>
+                                <div class="form-bottom">
+                                    <form role="form" action="" method="post" class="doYourAnalysis">
+                                    <!-- <label for="singleSelect" class="printLabel"> Choose a State </label>-->
+                                        <div class="form-group">
+                                            <select name="singleSelect" ng-model="party" class="countrySelect">
+                                            <option value="default" selected=>Choose a State</option>
+                                            <option value="AL">Alabama</option>
+                                            <option value="AK">Alakska</option>
+                                            <option value="AZ">Arizona</option>
+                                            <option value="AR">Arkansas</option>
+                                            <option value="CA">California</option>
+                                            <option value="CO">Colorado</option>
+                                            <option value="CT">Connecticut</option>
+                                            <option value="DE">Delaware</option>
+                                            <option value="FL">Florida</option>
+                                            <option value="GA">Georgia</option>
+                                            <option value="HI">Hawaii</option>
+                                            <option value="ID">Idaho</option>
+                                            <option value="IL">Illinois</option>
+                                            <option value="IN">Indiana</option>
+                                            <option value="IA">Iowa</option>
+                                            <option value="KS">Kansas</option>
+                                            <option value="KY">Kentucky</option>
+                                            <option value="LA">Louisiana</option>
+                                            <option value="ME">Maine</option>
+                                            <option value="MD">Maryland</option>
+                                            <option value="MA">Massachusetts</option>
+                                            <option value="MI">Michigan</option>
+                                            <option value="MN">Minnesota</option>
+                                            <option value="MS">Mississippi</option>
+                                            <option value="MO">Missouri</option>
+                                            <option value="MT">Montana</option>
+                                            <option value="NE">Nebraska</option>
+                                            <option value="NV">Nevada</option>
+                                            <option value="NH">New Hampshire</option>
+                                            <option value="NJ">New Jersey</option>
+                                            <option value="NM">New Mexico</option>
+                                            <option value="NY">New York</option>
+                                            <option value="NC">North Carolina</option>
+                                            <option value="ND">North Dakota</option>
+                                            <option value="OH">Ohio</option>
+                                            <option value="OK">Oklahoma</option>
+                                            <option value="OR">Oregon</option>
+                                            <option value="PA">Pennsylvania</option>
+                                            <option value="RI">Rhode Island</option>
+                                            <option value="SC">South Carolina</option>
+                                            <option value="SD">South Dakota</option>
+                                            <option value="TN">Tennessee</option>
+                                            <option value="TX">Texas</option>
+                                            <option value="UT">Utah</option>
+                                            <option value="VT">Vermont</option>
+                                            <option value="VA">Virginia</option>
+                                            <option value="WA">Washington</option>
+                                            <option value="WV">West Virginia</option>
+                                            <option value="WI">Wisconsin</option>
+                                            <option value="WY">Wyoming</option>
+                                            
+
+                                            </select>
+                                        </div>
+                                         <div class="form-group">
+                                             <!--<label for="singleSelect" class="printLabel"> Choose a Party </label>-->
+                                            <select name="singleSelect" ng-model="gender" class="selectGender">
+                                            <option value="default" selected=>Choose a Gender</option>
+                                            <option value="option-1">Male</option>
+                                            <option value="option-2">Female</option>
+                                            </select><br>  
+                                        </div>
+                                         <div class="form-group">
+                                             <!--<label for="singleSelect" class="printLabel"> Choose a Party </label>-->
+                                            <select name="singleSelect" ng-model="race" class="selectGender">
+                                            <option value="default" selected=>Choose a Race</option>
+                                            <option value="option-1">Asian</option>
+                                            <option value="option-2">Black</option>
+                                            <option value="option-2">Hispanic</option>
+                                            <option value="option-2">White</option>
+                                            </select><br>  
+                                        </div>
+                                        <div class="form-group">
+                                             <!--<label for="singleSelect" class="printLabel"> Choose a Party </label>-->
+                                            <select name="singleSelect" ng-model="age" class="selectGender">
+                                            <option value="default" selected=>Choose Age Group</option>
+                                            <option value="option-1">Above 18 but Below 65</option>
+                                            <option value="option-2">Above 65</option>
+                                            </select><br>  
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                             <!--<label for="singleSelect" class="printLabel"> Choose a Party </label>-->
+                                            <select name="singleSelect" ng-model="year" class="selectGender">
+                                            <option value="default" selected=>Choose an election year</option>
+                                            <option value="option-1">2012</option>
+                                            <option value="option-2">2016</option>
+                                            <option value="option-2">Both</option>
+                                            </select><br>  
+                                        </div>
+                                       
+                                        &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp  &nbsp &nbsp  &nbsp &nbsp 
+                                        <input type="button" name="signUp" class="btnVotes login loginmodal-submit" value="View Analysis" ng-click = "doYourAnalysis();" ng-disabled="loginForm.$invalid" >
+                                    </form>
+                                </div>
+                            
+                            
+                        </div>
+                    
+                    
+                </div>
+            </div>
+            
+        </div>
+
+   
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="js/freelancer.min.js"></script>
+
+</body>
+
+</html>
